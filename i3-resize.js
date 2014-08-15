@@ -14,8 +14,7 @@ function findCurrentWindow(tree) {
   }
 }
 
-
-function resizeCommand(currentWindow, direction) {
+function getResizeCommand(currentWindow, direction) {
   var x = currentWindow.rect.x;
   var y = currentWindow.rect.y;
   switch (direction) {
@@ -27,18 +26,18 @@ function resizeCommand(currentWindow, direction) {
       return (x === 0 ? 'shrink' : 'grow') + ' width';
     case 'right':
       return (x === 0 ? 'grow' : 'shrink') + ' width';
+    default:
+      throw new Error('Illegal Argument');
   }
 }
 
 var tree = JSON.parse(execSync('i3-msg -t get_tree'));
 var direction = process.argv[2];
 var win = findCurrentWindow(tree);
-var rCommand = resizeCommand(win, direction);
-//console.log(win.rect);
-//console.log(rCommand);
+var resizeCommand = getResizeCommand(win, direction);
 var ppt = process.argv[3] || 10;
-var px = ppt || 100;
-var shellCommand = 'i3-msg resize ' + rCommand + ' ' + px + ' px or '+ ppt + ' ppt'
-//console.log(shellCommand);
+var px = process.argv[4] || 100;
+var shellCommand = 'i3-msg resize ' + resizeCommand + ' ' + px + ' px or '+ ppt + ' ppt'
+
 execSync(shellCommand);
 
