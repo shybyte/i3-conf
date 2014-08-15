@@ -1,0 +1,21 @@
+order += "tztime local"
+order += "battery 0"
+order += "volume master"
+
+tztime local {
+        format = "%d.%m. %H:%M:%S"
+}
+
+battery 0 {
+        format = "%status %percentage"
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 10
+}
+
+volume master {
+        format = "♪: %volume"
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+}
+
