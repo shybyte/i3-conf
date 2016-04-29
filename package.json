@@ -9,6 +9,5 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "exec-sync": "~0.1.6"
   }
 }

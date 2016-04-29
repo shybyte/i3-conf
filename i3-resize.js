@@ -1,5 +1,6 @@
 #!/usr/bin/nodejs
-var execSync = require('exec-sync');
+var child_process = require('child_process');;
+
 
 function findCurrentWindow(tree) {
   if (tree && tree.focused) {
@@ -31,7 +32,7 @@ function getResizeCommand(currentWindow, direction) {
   }
 }
 
-var tree = JSON.parse(execSync('i3-msg -t get_tree'));
+var tree = JSON.parse(child_process.execSync('i3-msg -t get_tree'));
 var direction = process.argv[2];
 var win = findCurrentWindow(tree);
 var resizeCommand = getResizeCommand(win, direction);
@@ -39,5 +40,5 @@ var ppt = process.argv[3] || 10;
 var px = process.argv[4] || 100;
 var shellCommand = 'i3-msg resize ' + resizeCommand + ' ' + px + ' px or '+ ppt + ' ppt'
 
-execSync(shellCommand);
+child_process.execSync(shellCommand);
 
