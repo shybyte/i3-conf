@@ -39,8 +39,8 @@ bindsym $mod+dead_circumflex exec dmenu_run
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+odiaeresis focus right
+bindsym $mod+i focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -153,14 +153,16 @@ bar {
 
 exec --no-startup-id nm-applet
 exec --no-startup-id compton
-exec --no-startup-id feh --bg-scale ~/Bilder/bg
+exec --no-startup-id feh --bg-scale ~/Pictures/bg
 exec --no-startup-id clipit
+exec --no-startup-id workrave
+
 bindsym $mod+b border toggle
 #workspace_auto_back_and_forth yes
 bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+F1 [class="terminal"] focus
 bindsym $mod+F2 [class="webstorm"] focus
-bindsym $F3+mod [class="Chromium"] focus
+bindsym $mod+F3 [class="Chromium"] focus
 bindsym $mod+Shift+F1 exec i3-sensible-terminal
 bindsym $mod+Shift+F2 exec webstorm
 bindsym $mod+Shift+F3 exec chromium-browser
@@ -178,3 +180,25 @@ new_window none
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse set Master 10%+ unmute
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse set Master 10%- unmute
 bindsym XF86AudioMute exec amixer -q -D pulse set Master 1+ toggle
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hybernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id i3lock
+    bindsym e exec --no-startup-id i3-msg exit
+    bindsym s exec --no-startup-id dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend
+    bindsym r exec --no-startup-id dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.Reboot" boolean:true
+    bindsym Shift+s exec --no-startup-id dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.PowerOff" boolean:true
+    bindsym h exec --no-startup-id dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.Hibernate" boolean:true
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Pause mode "$mode_system"
+
+# scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+exec --no-startup-id "setxkbmap de"
+bindsym $mod+p exec "setxkbmap de"
