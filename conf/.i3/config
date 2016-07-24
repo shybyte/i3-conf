@@ -185,7 +185,8 @@ set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hybernate, (r) re
 mode "$mode_system" {
     bindsym l exec --no-startup-id i3lock
     bindsym e exec --no-startup-id i3-msg exit
-    bindsym s exec --no-startup-id dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend
+    # http://askubuntu.com/questions/454039/what-command-is-executed-when-shutdown-from-the-graphical-menu-in-14-04
+    bindsym s exec --no-startup-id dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.Suspend" boolean:true
     bindsym r exec --no-startup-id dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.Reboot" boolean:true
     bindsym Shift+s exec --no-startup-id dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.PowerOff" boolean:true
     bindsym h exec --no-startup-id dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.Hibernate" boolean:true
