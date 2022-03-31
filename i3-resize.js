@@ -36,7 +36,7 @@ function getResizeCommand(currentWindow, direction) {
 }
 
 
-const tree = JSON.parse(child_process.execSync('i3-msg -t get_tree'));
+const tree = JSON.parse(child_process.execSync('i3-msg -t get_tree', {encoding: 'utf8'}));
 const direction = process.argv[2];
 const win = findCurrentWindow(tree);
 const resizeCommand = getResizeCommand(win, direction);
