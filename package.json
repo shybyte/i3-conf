@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "description": "",
   "main": "test.js",
+  "type": "module",
   "scripts": {
+    "start:up": "node i3-resize.js up",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "exec-sync": "~0.1.6"
   }
 }
