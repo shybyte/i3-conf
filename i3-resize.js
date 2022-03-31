@@ -15,18 +15,22 @@ function findCurrentWindow(tree) {
   }
 }
 
+function isInRange(x, min, length) {
+    return min <= x && x <= min+length;
+}
+
 function getResizeCommand(currentWindow, direction) {
   var x = currentWindow.rect.x;
   var y = currentWindow.rect.y;
   switch (direction) {
     case 'up':
-      return (y === 0 ? 'shrink' : 'grow') + ' height';
+      return (y < 20 ? 'shrink' : 'grow') + ' height';
     case 'down':
-      return (y === 0 ? 'grow' : 'shrink') + ' height';
+      return (y < 20 ? 'grow' : 'shrink') + ' height';
     case 'left':
-      return (x === 0 ? 'shrink' : 'grow') + ' width';
+      return (x < 20 || isInRange(x, 1920, 20) ? 'shrink' : 'grow') + ' width';
     case 'right':
-      return (x === 0 ? 'grow' : 'shrink') + ' width';
+      return (x < 20 || isInRange(x, 1920, 20)  ? 'grow' : 'shrink') + ' width';
     default:
       throw new Error('Illegal Argument');
   }
@@ -39,6 +43,9 @@ var resizeCommand = getResizeCommand(win, direction);
 var ppt = process.argv[3] || 10;
 var px = process.argv[4] || 100;
 var shellCommand = 'i3-msg resize ' + resizeCommand + ' ' + px + ' px or '+ ppt + ' ppt'
+
+// console.log("tree", tree)
+// console.log("win", JSON.stringify(win, null, 2))
 
 child_process.execSync(shellCommand);
 
